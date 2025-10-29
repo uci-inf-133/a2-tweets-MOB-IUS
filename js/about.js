@@ -37,11 +37,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 });
 
 // Turn Date type into mm dd, yyyy
+month_strings = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+weekday_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 function parseDate(date) {
-	month_number = date.getMonth() + 1;
-	month = (month_number >= 10) ? month_number.toString() : "0" + month_number.toString();
+	month = date.getMonth();
 	day = date.getDate().toString();
 	year = date.getFullYear().toString();
 
-	return (month + "/" + day + "/" + year)
+	return (weekday_strings[date.getDay()] + ", " + month_strings[month] + " " + day + ", " + year);
 }
