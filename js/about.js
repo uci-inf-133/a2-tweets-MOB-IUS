@@ -16,6 +16,10 @@ function parseTweets(runkeeper_tweets) {
 	// Get all information for span parts
 	earliest_date = tweet_array[0].time;
 	latest_date = tweet_array[0].time;
+	completed = 0;
+	live = 0;
+	achievement = 0;
+	miscellaneous = 0;
 	for (let i = 0; i < tweet_array.length; i++) {
 		// Update earliest and latest time
 		if (tweet_array[i].time < earliest_date) {
@@ -24,11 +28,40 @@ function parseTweets(runkeeper_tweets) {
 		if (tweet_array[i].time > latest_date) {
 			latest_date = tweet_array[i].time;
 		}
+
+		// Get category information
+		if (tweet_array[i].source == "completed") {
+			completed += 1;
+		}
+		else if (tweet_array[i].source == "live") {
+			live += 1;
+		}
+		else if (tweet_array[i].source == "achievement") {
+			achievement += 1;
+		}
+		else if (tweet_array[i].source == "miscellaneous") {
+			miscellaneous += 1;
+		}
 	}
 
 	//Update the all span information
-	document.getElementById('firstDate').innerText = parseDate(earliest_date);
+	document.getElementById('firstDate').innerText = parseDate(earliest_date);		// Earliest and Latest dates
 	document.getElementById('lastDate').innerText = parseDate(latest_date);
+
+	document.getElementsByClassName('completedEvents')[0].innerText = completed;	// Numbers of tweets categories
+	document.getElementsByClassName('completedEvents')[1].innerText = completed;
+	document.getElementsByClassName('liveEvents')[0].innerText = live;
+	document.getElementsByClassName('achievements')[0].innerText = achievement;
+	document.getElementsByClassName('miscellaneous')[0].innerText = miscellaneous;
+
+	document.getElementsByClassName('completedEventsPct')[0]						// Percentages of tweets categories
+		.innerText = ((completed*100)/tweet_array.length).toFixed(2) + "%";
+	document.getElementsByClassName('liveEventsPct')[0]
+		.innerText = ((live*100)/tweet_array.length).toFixed(2) + "%";
+	document.getElementsByClassName('achievementsPct')[0]
+		.innerText = ((achievement*100)/tweet_array.length).toFixed(2) + "%";
+	document.getElementsByClassName('miscellaneousPct')[0]
+		.innerText = ((miscellaneous*100)/tweet_array.length).toFixed(2) + "%";
 }
 
 //Wait for the DOM to load
