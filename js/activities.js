@@ -9,8 +9,25 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+	// Get activity summary information
+	let activity_map = new Map();
+	for(let i = 0; i < tweet_array.length; i++) {
+		// Get commonality of activities
+		if (activity_map.has(tweet_array[i].activityType)) {
+			activity_map.set(tweet_array[i].activityType, activity_map.get(tweet_array[i].activityType)+1);
+		}
+		else {
+			activity_map.set(tweet_array[i].activityType, 0);
+		}
+	}
+
+	// //Update all span information in html
+
+
+
+
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
-	
+
 
 	// activity_vis_spec = {
 	//   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",

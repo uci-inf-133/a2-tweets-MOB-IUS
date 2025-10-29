@@ -69,7 +69,18 @@ class Tweet {
         }
         else {
             let activityStr:string = this.text.substring(indexOfDistUnit+3);
-            activityStr = activityStr.substring(0, activityStr.indexOf(" "));
+            let endIndex:number; // Either before "-" or "with" depending on written texts
+            if (this.written) {
+                endIndex = activityStr.indexOf("-") - 1;
+            }
+            else {
+                endIndex = activityStr.indexOf("with") - 1;
+            }
+
+            activityStr = activityStr.substring(0, endIndex);
+            if (activityStr == "") {
+                return "unknown";
+            }
             return activityStr;
         }
     }

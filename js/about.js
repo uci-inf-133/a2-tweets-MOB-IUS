@@ -50,7 +50,7 @@ function parseTweets(runkeeper_tweets) {
 	}
 	console.log(written);
 
-	//Update the all span information
+	//Update all span information in html
 	document.getElementById('firstDate').innerText = parseDate(earliest_date);		// Earliest and Latest dates
 	document.getElementById('lastDate').innerText = parseDate(latest_date);
 
