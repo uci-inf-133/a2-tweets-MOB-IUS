@@ -20,6 +20,7 @@ function parseTweets(runkeeper_tweets) {
 	live = 0;
 	achievement = 0;
 	miscellaneous = 0;
+	written = 0;
 	for (let i = 0; i < tweet_array.length; i++) {
 		// Update earliest and latest time
 		if (tweet_array[i].time < earliest_date) {
@@ -32,6 +33,10 @@ function parseTweets(runkeeper_tweets) {
 		// Get category information
 		if (tweet_array[i].source == "completed") {
 			completed += 1;
+			// Get number of self written texts
+			if (tweet_array[i].written == true) {
+				written += 1;
+			}
 		}
 		else if (tweet_array[i].source == "live") {
 			live += 1;
@@ -43,6 +48,7 @@ function parseTweets(runkeeper_tweets) {
 			miscellaneous += 1;
 		}
 	}
+	console.log(written);
 
 	//Update the all span information
 	document.getElementById('firstDate').innerText = parseDate(earliest_date);		// Earliest and Latest dates
@@ -62,6 +68,10 @@ function parseTweets(runkeeper_tweets) {
 		.innerText = ((achievement*100)/tweet_array.length).toFixed(2) + "%";
 	document.getElementsByClassName('miscellaneousPct')[0]
 		.innerText = ((miscellaneous*100)/tweet_array.length).toFixed(2) + "%";
+	
+	document.getElementsByClassName('written')[0].innerText = written;				// Number and percentage for written texts
+	document.getElementsByClassName('writtenPct')[0]
+		.innerText = ((written*100)/completed).toFixed(2) + "%";
 }
 
 //Wait for the DOM to load

@@ -9,14 +9,11 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-        //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
         if (this.text.startsWith("Just completed") || 
             this.text.startsWith("Just posted")) {
-                console.log("NO");
                 return "completed";
         }
         else if (this.text.startsWith("Watch my")) {
-            console.log("YES");
             return "live";
         }
         else if (this.text.startsWith("Achieved") &&
@@ -28,18 +25,31 @@ class Tweet {
         }
     }
 
-    //returns a boolean, whether the text includes any content written by the person tweeting.
-    get written():boolean {
-        //TODO: identify whether the tweet is written
-        return false;
-    }
-
+    //filter parts of any content written by the person tweeting.
     get writtenText():string {
-        if(!this.written) {
+        let personText:string = this.text;
+        let indexOfLink:number = personText.indexOf("https");
+        personText = personText.substring(0, indexOfLink);
+
+        let indexOfPersonText:number;
+        indexOfPersonText = personText.indexOf("-");
+
+        if (indexOfPersonText != -1) {
+            indexOfPersonText += 2;
+            return personText.substring(indexOfPersonText);
+        }
+        else {
             return "";
         }
-        //TODO: parse the written text from the tweet
-        return "";
+    }
+
+    get written():boolean {
+        if (this.writtenText.length == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     get activityType():string {
