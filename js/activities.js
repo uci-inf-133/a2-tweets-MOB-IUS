@@ -31,8 +31,8 @@ function parseTweets(runkeeper_tweets) {
 			distance_map.set(tweet_array[i].activityType, tweet_array[i].distance);
 		}
 	}
-	console.log(distance_map);
 	console.log(activity_map);
+	console.log(distance_map);
 
 	// Get top 3 common activities and their distances
 	let top_activity = [];
@@ -54,15 +54,28 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
-	// //Update all span information in html
+	let longest_avg_dist_activity = top_activity[0];
+	let shortest_avg_dist_activity = top_activity[0];
+	console.log(longest_avg_dist_activity);
+	for (let i = 1; i < 3; i++) {
+		if ((distance_map.get(top_activity[i]) / activity_map.get(top_activity[i]))
+			> (distance_map.get(longest_avg_dist_activity) / activity_map.get(longest_avg_dist_activity))) {
+				longest_avg_dist_activity = top_activity[i];
+		}
+		if ((distance_map.get(top_activity[i]) / activity_map.get(top_activity[i]))
+			< (distance_map.get(shortest_avg_dist_activity) / activity_map.get(shortest_avg_dist_activity))) {
+				shortest_avg_dist_activity = top_activity[i];
+		}
+	}
+
+	// Update all span information in html
 	document.getElementById('numberActivities').innerText = activity_map.size;
 	document.getElementById('firstMost').innerText = top_activity[0];
 	document.getElementById('secondMost').innerText = top_activity[1];
 	document.getElementById('thirdMost').innerText = top_activity[2];
 
-
-
-
+	document.getElementById('longestActivityType').innerText = longest_avg_dist_activity;
+	document.getElementById('shortestActivityType').innerText = shortest_avg_dist_activity;
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
