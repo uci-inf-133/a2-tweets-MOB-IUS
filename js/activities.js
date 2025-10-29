@@ -21,10 +21,30 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
+	// Get top 3 common activities
+	let top_activity = [];
+	let iterator = activity_map.keys();
+	for (let i = 0; i < 3; i++) {
+		top_activity.push(iterator.next().value);
+	}
+	for (let i = 3; i < activity_map.size; i++) {
+		let new_key = iterator.next().value;
+		// Compare to update top 3
+		if (activity_map.get(new_key) > activity_map.get(top_activity[0])) {
+			top_activity[0] = new_key;
+		}
+		else if (activity_map.get(new_key) > activity_map.get(top_activity[1])) {
+			top_activity[1] = new_key;
+		}
+		else if (activity_map.get(new_key) > activity_map.get(top_activity[2])) {
+			top_activity[2] = new_key;
+		}
+	}
+
 	// //Update all span information in html
 
 
-
+	
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
