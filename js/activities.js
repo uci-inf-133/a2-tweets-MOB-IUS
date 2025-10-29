@@ -12,7 +12,7 @@ function parseTweets(runkeeper_tweets) {
 	// Get activity summary information
 	let activity_map = new Map();
 	let distance_map = new Map();
-	for(let i = 0; i < tweet_array.length; i++) {
+	for (let i = 0; i < tweet_array.length; i++) {
 		// Get commonality of activities
 		if (activity_map.has(tweet_array[i].activityType)) {
 			activity_map.set(tweet_array[i].activityType,
@@ -68,6 +68,25 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 
+	// Get whether the longest activity is on weekdays or weekends
+	let weekday_dist = 0; let weekday_count = 0;
+	let weekend_dist = 0; let weekend_count = 0;
+	for (let i = 0; i < tweet_array.length; i++) {
+		if (tweet_array[i].activityType == longest_avg_dist_activity) {
+			if (tweet_array[i].time.getDay() <= 4) {
+				weekday_count += 1;
+				weekday_dist += tweet_array[i].distance;
+			}
+			else {
+				weekend_count += 1;
+				weekend_dist += tweet_array[i].distance;
+			}
+		}
+	}
+
+	let tendency_period = ((weekday_dist / weekday_count > weekend_dist / weekend_count) 
+		? "weekday" : "weekend");
+
 	// Update all span information in html
 	document.getElementById('numberActivities').innerText = activity_map.size;
 	document.getElementById('firstMost').innerText = top_activity[0];
@@ -76,6 +95,7 @@ function parseTweets(runkeeper_tweets) {
 
 	document.getElementById('longestActivityType').innerText = longest_avg_dist_activity;
 	document.getElementById('shortestActivityType').innerText = shortest_avg_dist_activity;
+	document.getElementById('weekdayOrWeekendLonger').innerText = tendency_period;
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
