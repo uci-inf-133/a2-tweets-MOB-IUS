@@ -10,16 +10,17 @@ function parseTweets(runkeeper_tweets) {
 	});
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+	
 
-	activity_vis_spec = {
-	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-	  "description": "A graph of the number of Tweets containing each type of activity.",
-	  "data": {
-	    "values": tweet_array
-	  }
+	// activity_vis_spec = {
+	//   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	//   "description": "A graph of the number of Tweets containing each type of activity.",
+	//   "data": {
+	//     "values": tweet_array
+	//   }
 	  //TODO: Add mark and encoding
-	};
-	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+	// };
+	//vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.

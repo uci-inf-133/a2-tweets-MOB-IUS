@@ -53,19 +53,52 @@ class Tweet {
     }
 
     get activityType():string {
-        if (this.source != 'completed_event') {
+        // Edge Case
+        if (this.source != 'completed') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
-        return "";
+
+        // Get activity type
+        let indexOfDistUnit:number = this.text.indexOf("km");
+        if (indexOfDistUnit == -1) {
+            indexOfDistUnit = this.text.indexOf("mi");
+        }
+
+        if (indexOfDistUnit == -1) {
+            return "unknown";
+        }
+        else {
+            let activityStr:string = this.text.substring(indexOfDistUnit+3);
+            activityStr = activityStr.substring(0, activityStr.indexOf(" "));
+            return activityStr;
+        }
     }
 
     get distance():number {
-        if(this.source != 'completed_event') {
+        // Edge Case
+        if(this.source != 'completed') {
             return 0;
         }
-        //TODO: prase the distance from the text of the tweet
-        return 0;
+        
+        // Get activity distance
+        let isInKm:boolean = false;
+        let indexOfDistUnit:number = this.text.indexOf("km");
+        if (indexOfDistUnit == -1) {
+            indexOfDistUnit = this.text.indexOf("mi");
+        }
+        else {
+            isInKm = true;
+        }
+
+        if (indexOfDistUnit == -1) {
+            return 0;
+        }
+        else {
+            let activityDistStr:string = this.text.substring(0, indexOfDistUnit-1);
+            activityDistStr = activityDistStr.substring(activityDistStr.indexOf("a")+1);
+
+            return (isInKm ? Number(activityDistStr)*0.621371 : Number(activityDistStr));
+        }
     }
 
     getHTMLTableRow(rowNumber:number):string {
