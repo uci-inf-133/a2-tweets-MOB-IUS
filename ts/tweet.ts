@@ -59,16 +59,16 @@ class Tweet {
         }
 
         // Get activity type
-        let indexOfDistUnit:number = this.text.indexOf("km");
+        let indexOfDistUnit:number = this.text.indexOf(" km ");
         if (indexOfDistUnit == -1) {
-            indexOfDistUnit = this.text.indexOf("mi");
+            indexOfDistUnit = this.text.indexOf(" mi ");
         }
 
         if (indexOfDistUnit == -1) {
             return "unknown";
         }
         else {
-            let activityStr:string = this.text.substring(indexOfDistUnit+3);
+            let activityStr:string = this.text.substring(indexOfDistUnit+4);
             let endIndex:number; // Either before "-" or "with" depending on written texts
             if (this.written) {
                 endIndex = activityStr.indexOf("-") - 1;
@@ -93,9 +93,9 @@ class Tweet {
         
         // Get activity distance
         let isInKm:boolean = false;
-        let indexOfDistUnit:number = this.text.indexOf("km");
+        let indexOfDistUnit:number = this.text.indexOf(" km ");
         if (indexOfDistUnit == -1) {
-            indexOfDistUnit = this.text.indexOf("mi");
+            indexOfDistUnit = this.text.indexOf(" mi ");
         }
         else {
             isInKm = true;
@@ -105,7 +105,7 @@ class Tweet {
             return 0;
         }
         else {
-            let activityDistStr:string = this.text.substring(0, indexOfDistUnit-1);
+            let activityDistStr:string = this.text.substring(0, indexOfDistUnit);
             activityDistStr = activityDistStr.substring(activityDistStr.indexOf("a")+1);
 
             return (isInKm ? Number(activityDistStr)*0.621371 : Number(activityDistStr));

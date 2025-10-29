@@ -11,17 +11,30 @@ function parseTweets(runkeeper_tweets) {
 
 	// Get activity summary information
 	let activity_map = new Map();
+	let distance_map = new Map();
 	for(let i = 0; i < tweet_array.length; i++) {
 		// Get commonality of activities
 		if (activity_map.has(tweet_array[i].activityType)) {
-			activity_map.set(tweet_array[i].activityType, activity_map.get(tweet_array[i].activityType)+1);
+			activity_map.set(tweet_array[i].activityType,
+				activity_map.get(tweet_array[i].activityType)+1);
 		}
 		else {
-			activity_map.set(tweet_array[i].activityType, 0);
+			activity_map.set(tweet_array[i].activityType, 1);
+		}
+
+		// Get distance summation for activities
+		if (distance_map.has(tweet_array[i].activityType)) {
+			distance_map.set(tweet_array[i].activityType,
+				distance_map.get(tweet_array[i].activityType) + tweet_array[i].distance);
+		}
+		else {
+			distance_map.set(tweet_array[i].activityType, tweet_array[i].distance);
 		}
 	}
+	console.log(distance_map);
+	console.log(activity_map);
 
-	// Get top 3 common activities
+	// Get top 3 common activities and their distances
 	let top_activity = [];
 	let iterator = activity_map.keys();
 	for (let i = 0; i < 3; i++) {
@@ -42,9 +55,14 @@ function parseTweets(runkeeper_tweets) {
 	}
 
 	// //Update all span information in html
+	document.getElementById('numberActivities').innerText = activity_map.size;
+	document.getElementById('firstMost').innerText = top_activity[0];
+	document.getElementById('secondMost').innerText = top_activity[1];
+	document.getElementById('thirdMost').innerText = top_activity[2];
 
 
-	
+
+
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
