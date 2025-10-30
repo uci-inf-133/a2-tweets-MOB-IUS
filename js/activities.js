@@ -104,7 +104,7 @@ function parseTweets(runkeeper_tweets) {
  		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   		"description": "A simple bar chart with embedded data.",
   		"data": {
-    	"values": activity_vis_data,
+    		"values": activity_vis_data,
   		},
   		"mark": "bar",
   		"encoding": {
@@ -121,8 +121,50 @@ function parseTweets(runkeeper_tweets) {
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
-	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
-	
+	// Dot plots of tweet activities distance by days of week and colored by activity types
+	let week_days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	let activity_dist_data = [];
+	for (let i = 0; i < tweet_array.length; i++) {
+		if (tweet_array[i].activityType == top_activity[0] || 
+			tweet_array[i].activityType == top_activity[1] ||
+			tweet_array[i].activityType == top_activity[2]
+		) {
+				activity_dist_data.push({
+					"day": week_days[tweet_array[i].time.getDay()],
+					"dist": tweet_array[i].distance,
+					"type": tweet_array[i].activityType
+				});
+		}
+	}
+
+	activity_dist_spec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  		"description": "A simple dot graph about activity distance.",
+  		"data": {
+    		"values": activity_dist_data,
+  		},
+		"mark": "point",
+		"width": 200,
+		"encoding": {
+			"x": {
+				"field": "day",
+				"type": "nominal",
+				"sort": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				"axis": {'title': "Days of Week"}
+			},
+   	 		"y": {
+				"field": "dist",
+				"type": "quantitative",
+				"axis": {'title': "Distance"}
+			},
+    		"color": {
+				"field": "type"
+			}
+		}
+	};
+	vegaEmbed('#distanceVis', activity_dist_spec, {actions:false});
+	vegaEmbed('#distanceVisAggregated', activity_vis_spec, {actions:false});
+
 }
 
 //Wait for the DOM to load
