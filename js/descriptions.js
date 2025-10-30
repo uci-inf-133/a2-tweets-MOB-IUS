@@ -10,6 +10,10 @@ function parseTweets(runkeeper_tweets) {
 
 function addEventHandlerForSearch() {
 	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
+	let text_input = document.getElementById('textFilter');
+	text_input.addEventListener('keyup', () => {
+		console.log(text_input.value);
+	});
 }
 
 //Wait for the DOM to load
