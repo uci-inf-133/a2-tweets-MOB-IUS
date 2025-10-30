@@ -31,8 +31,6 @@ function parseTweets(runkeeper_tweets) {
 			distance_map.set(tweet_array[i].activityType, tweet_array[i].distance);
 		}
 	}
-	console.log(activity_map);
-	console.log(distance_map);
 
 	// Get top 3 common activities and their distances
 	let top_activity = [];
@@ -56,7 +54,6 @@ function parseTweets(runkeeper_tweets) {
 
 	let longest_avg_dist_activity = top_activity[0];
 	let shortest_avg_dist_activity = top_activity[0];
-	console.log(longest_avg_dist_activity);
 	for (let i = 1; i < 3; i++) {
 		if ((distance_map.get(top_activity[i]) / activity_map.get(top_activity[i]))
 			> (distance_map.get(longest_avg_dist_activity) / activity_map.get(longest_avg_dist_activity))) {
@@ -85,7 +82,7 @@ function parseTweets(runkeeper_tweets) {
 	}
 
 	let tendency_period = ((weekday_dist / weekday_count > weekend_dist / weekend_count) 
-		? "weekday" : "weekend");
+		? "weekdays" : "weekends");
 
 	// Update all span information in html
 	document.getElementById('numberActivities').innerText = activity_map.size;
@@ -97,21 +94,35 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('shortestActivityType').innerText = shortest_avg_dist_activity;
 	document.getElementById('weekdayOrWeekendLonger').innerText = tendency_period;
 
-	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
-
-
-	// activity_vis_spec = {
-	//   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-	//   "description": "A graph of the number of Tweets containing each type of activity.",
-	//   "data": {
-	//     "values": tweet_array
-	//   }
-	  //TODO: Add mark and encoding
-	// };
-	//vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+	// Activity visualization graph
+	let activity_vis_data = [];
+	for (let i = 0; i < tweet_array.length; i++) {
+		activity_vis_data.push({"type": tweet_array[i].activityType});
+	}
+	
+	activity_vis_spec = {
+ 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  		"description": "A simple bar chart with embedded data.",
+  		"data": {
+    	"values": activity_vis_data,
+  		},
+  		"mark": "bar",
+  		"encoding": {
+    		"x": {
+				"field": "type",
+				"type": "nominal",
+				"axis": {'title': "Activities"}
+			},
+    		"y": {
+				"aggregate": "count",
+				"axis": {'title': "Count"}
+			}
+  		}	
+	};
+	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
-	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+	
 }
 
 //Wait for the DOM to load
