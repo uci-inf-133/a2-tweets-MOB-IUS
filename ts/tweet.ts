@@ -119,15 +119,19 @@ class Tweet {
         // Add in tweet content with clickable url
         let indexOfUrlStart:number = this.text.indexOf("https");
         let indexOfUrlEnd:number = this.text.substring(indexOfUrlStart).indexOf(' ');
-        console.log("HERE: " + indexOfUrlStart);
+        let link_text = this.text.substring(indexOfUrlStart);
+        let another_index = link_text.indexOf(' ');
+        link_text = link_text.substring(0, another_index);
+        console.log(link_text);
+        let another_another_index = this.text.indexOf(link_text);
 
-        tweet_cell += this.text.substring(0, indexOfUrlStart);              // Content before link
-        tweet_cell += "<a href=\"";                                         // Link
-        tweet_cell += this.text.substring(indexOfUrlStart, indexOfUrlEnd);
+        tweet_cell += this.text.substring(0, indexOfUrlStart);                          // Content before link
+        tweet_cell += "<a href=\"";                                                     // Link
+        tweet_cell += link_text;
         tweet_cell += "\">";
-        tweet_cell += this.text.substring(indexOfUrlStart, indexOfUrlEnd);
+        tweet_cell += link_text;
         tweet_cell += "</a>";
-        tweet_cell += this.text.substring(indexOfUrlEnd);                   // Content after link
+        tweet_cell += this.text.substring(another_another_index + link_text.length);    // Content after link
 
         // Add end tag and return
         tweet_cell += "</td>"
