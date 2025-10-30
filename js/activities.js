@@ -70,7 +70,7 @@ function parseTweets(runkeeper_tweets) {
 	let weekend_dist = 0; let weekend_count = 0;
 	for (let i = 0; i < tweet_array.length; i++) {
 		if (tweet_array[i].activityType == longest_avg_dist_activity) {
-			if (tweet_array[i].time.getDay() <= 4) {
+			if (tweet_array[i].time.getDay() <= 5 && tweet_array[i].time.getDay() >= 1) {
 				weekday_count += 1;
 				weekday_dist += tweet_array[i].distance;
 			}
@@ -94,7 +94,7 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('shortestActivityType').innerText = shortest_avg_dist_activity;
 	document.getElementById('weekdayOrWeekendLonger').innerText = tendency_period;
 
-	// Activity visualization graph
+	// Plot1: Activity visualization graph
 	let activity_vis_data = [];
 	for (let i = 0; i < tweet_array.length; i++) {
 		activity_vis_data.push({"type": tweet_array[i].activityType});
@@ -123,7 +123,7 @@ function parseTweets(runkeeper_tweets) {
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
 	// Dot plot of tweet activities distance by days of week and colored by activity types
-	let week_days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	let week_days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	let activity_dist_data = [];
 	for (let i = 0; i < tweet_array.length; i++) {
 		if (tweet_array[i].activityType == top_activity[0] || 
@@ -150,7 +150,7 @@ function parseTweets(runkeeper_tweets) {
 			"x": {
 				"field": "day",
 				"type": "nominal",
-				"sort": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 				"axis": {'title': "Days of Week"}
 			},
    	 		"y": {
@@ -179,7 +179,7 @@ function parseTweets(runkeeper_tweets) {
 			"x": {
 				"field": "day",
 				"type": "nominal",
-				"sort": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 				"axis": {'title': "Days of Week"}
 			},
    	 		"y": {
