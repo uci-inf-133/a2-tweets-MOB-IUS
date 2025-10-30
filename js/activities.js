@@ -164,19 +164,28 @@ function parseTweets(runkeeper_tweets) {
 	};
 	vegaEmbed('#distanceVis', activity_dist_spec, {actions:false});
 	vegaEmbed('#distanceVisAggregated', activity_vis_spec, {actions:false});
-
+	document.getElementById('distanceVisAggregated').style.display = 'none';
 }
 
 // Set up switch graph button
 function setUpButton() {
-	// Graph switching button
-	let message_num = 0;
+	// Get arraies of button messages and graph divs
+	let flag_num = 0;
 	let button_message = ["Show means", "Show all activities"];
+	let graph_div = [];
+	graph_div.push(document.getElementById('distanceVis'));
+	graph_div.push(document.getElementById('distanceVisAggregated'));
 
+	// Graph switching button
 	let switch_button = document.getElementById('aggregate');
 	switch_button.onclick = () => {
-		message_num = 1 - message_num;
-		switch_button.innerText = button_message[message_num];
+		// Switch button message
+		flag_num = 1 - flag_num;
+		switch_button.innerText = button_message[flag_num];
+
+		// Switch graph
+		graph_div[1 - flag_num].style.display = 'none';
+		graph_div[flag_num].style.display = 'block';
 	}
 }
 
