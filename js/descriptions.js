@@ -21,12 +21,13 @@ function parseTweets(runkeeper_tweets) {
 }
 
 function addEventHandlerForSearch() {
-	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 	// Update search reminder texts upon page first loaded
 	document.getElementById('searchCount').innerText = "0";
 	document.getElementById('searchText').innerText = "";
 
+	// Get search result
 	let text_input = document.getElementById('textFilter');
+	let table_content = document.getElementById('tweetTable');
 	text_input.addEventListener('keyup', () => {
 		console.log(text_input.value);
 		tweets_to_show = written_tweets.filter((tweet) => {
@@ -44,6 +45,22 @@ function addEventHandlerForSearch() {
 		document.getElementById('searchText').innerText = text_input.value;
 
 		// Update table
+		table_content.innerHTML = "";
+		let next_index = 0;
+		for (let i = 0; i < tweets_to_show.length; i++) {
+			// Create new row
+			let row = table_content.insertRow(next_index);
+			let cell_row_number = row.insertCell(0);
+			let cell_activity_type = row.insertCell(1);
+			let cell_tweet = row.insertCell(2);
+
+			cell_row_number.innerHTML = next_index + 1;
+			cell_activity_type.innerHTML = tweets_to_show[i].activityType;
+			cell_tweet.innerHTML = tweets_to_show[i].text;
+
+			// Update index counter
+			next_index += 1;
+		}
 	});
 }
 
