@@ -112,8 +112,25 @@ class Tweet {
         }
     }
 
-    getHTMLTableRow(rowNumber:number):string {
-        //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+    getHTMLTweet():string {
+        // Initialize new cell
+        let tweet_cell:string = "<td>";
+
+        // Add in tweet content with clickable url
+        let indexOfUrlStart:number = this.text.indexOf("https");
+        let indexOfUrlEnd:number = this.text.substring(indexOfUrlStart).indexOf(' ');
+        console.log("HERE: " + indexOfUrlStart);
+
+        tweet_cell += this.text.substring(0, indexOfUrlStart);              // Content before link
+        tweet_cell += "<a href=\"";                                         // Link
+        tweet_cell += this.text.substring(indexOfUrlStart, indexOfUrlEnd);
+        tweet_cell += "\">";
+        tweet_cell += this.text.substring(indexOfUrlStart, indexOfUrlEnd);
+        tweet_cell += "</a>";
+        tweet_cell += this.text.substring(indexOfUrlEnd);                   // Content after link
+
+        // Add end tag and return
+        tweet_cell += "</td>"
+        return tweet_cell;
     }
 }
