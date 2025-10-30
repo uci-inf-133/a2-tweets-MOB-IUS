@@ -151,12 +151,12 @@ function parseTweets(runkeeper_tweets) {
 				"field": "day",
 				"type": "nominal",
 				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-				"axis": {'title': "Days of Week"}
+				"axis": {'title': "Days of Week", "labelAngle": 0}
 			},
    	 		"y": {
 				"field": "dist",
 				"type": "quantitative",
-				"axis": {'title': "Distance"}
+				"axis": {'title': "Distance (miles)"}
 			},
     		"color": {
 				"field": "type"
@@ -180,12 +180,12 @@ function parseTweets(runkeeper_tweets) {
 				"field": "day",
 				"type": "nominal",
 				"sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-				"axis": {'title': "Days of Week"}
+				"axis": {'title': "Days of Week", "labelAngle": 0}
 			},
    	 		"y": {
 				"field": "dist",
 				"aggregate": "mean",
-				"axis": {'title': "Mean Distance"}
+				"axis": {'title': "Mean Distance (miles)"}
 			},
     		"color": {
 				"field": "type"
