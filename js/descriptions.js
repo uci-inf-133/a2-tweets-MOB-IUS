@@ -1,3 +1,6 @@
+// Store all tweets with user written texts
+var written_tweets = [];
+
 function parseTweets(runkeeper_tweets) {
 	//Do not proceed if no tweets loaded
 	if(runkeeper_tweets === undefined) {
@@ -5,7 +8,15 @@ function parseTweets(runkeeper_tweets) {
 		return;
 	}
 
-	//TODO: Filter to just the written tweets
+	tweet_array = runkeeper_tweets.map(function(tweet) {
+		return new Tweet(tweet.text, tweet.created_at);
+	});
+
+	// Filter out all the tweets with user written texts
+	// and store them into written_tweets as global variable
+	written_tweets = tweet_array.filter((tweet) => {
+		return (tweet.written == true);
+	});
 }
 
 function addEventHandlerForSearch() {

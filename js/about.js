@@ -48,7 +48,6 @@ function parseTweets(runkeeper_tweets) {
 			miscellaneous += 1;
 		}
 	}
-	console.log(written);
 
 	//Update all span information in html
 	document.getElementById('firstDate').innerText = parseDate(earliest_date);		// Earliest and Latest dates
