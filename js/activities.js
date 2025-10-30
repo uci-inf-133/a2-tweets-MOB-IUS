@@ -167,7 +167,21 @@ function parseTweets(runkeeper_tweets) {
 
 }
 
+// Set up switch graph button
+function setUpButton() {
+	// Graph switching button
+	let message_num = 0;
+	let button_message = ["Show means", "Show all activities"];
+
+	let switch_button = document.getElementById('aggregate');
+	switch_button.onclick = () => {
+		message_num = 1 - message_num;
+		switch_button.innerText = button_message[message_num];
+	}
+}
+
+
 //Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function (event) {
-	loadSavedRunkeeperTweets().then(parseTweets);
+	loadSavedRunkeeperTweets().then(parseTweets).then(setUpButton);
 });
