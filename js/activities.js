@@ -119,9 +119,10 @@ function parseTweets(runkeeper_tweets) {
 			}
   		}	
 	};
+
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
-	// Dot plots of tweet activities distance by days of week and colored by activity types
+	// Dot plot of tweet activities distance by days of week and colored by activity types
 	let week_days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 	let activity_dist_data = [];
 	for (let i = 0; i < tweet_array.length; i++) {
@@ -162,8 +163,37 @@ function parseTweets(runkeeper_tweets) {
 			}
 		}
 	};
+
 	vegaEmbed('#distanceVis', activity_dist_spec, {actions:false});
-	vegaEmbed('#distanceVisAggregated', activity_vis_spec, {actions:false});
+
+	// Dot plot of tweet activities mean distance by days of week and colored by activity types
+	activity_dist_mean_spec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  		"description": "A simple dot graph about activity distance.",
+  		"data": {
+    		"values": activity_dist_data,
+  		},
+		"mark": "point",
+		"width": 200,
+		"encoding": {
+			"x": {
+				"field": "day",
+				"type": "nominal",
+				"sort": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				"axis": {'title': "Days of Week"}
+			},
+   	 		"y": {
+				"field": "dist",
+				"aggregate": "mean",
+				"axis": {'title': "Mean Distance"}
+			},
+    		"color": {
+				"field": "type"
+			}
+		}
+	};
+
+	vegaEmbed('#distanceVisAggregated', activity_dist_mean_spec, {actions:false});
 	document.getElementById('distanceVisAggregated').style.display = 'none';
 }
 
